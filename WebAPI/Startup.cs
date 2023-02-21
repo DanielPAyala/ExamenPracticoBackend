@@ -27,6 +27,13 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+            // CORS
+            services.AddCors(options =>
+                             options.AddPolicy("AllowWebapp", builder =>
+                                                              builder.AllowAnyOrigin()
+                                                                     .AllowAnyHeader()
+                                                                     .AllowAnyMethod()));
             services.AddControllers();
         }
 
@@ -39,6 +46,9 @@ namespace WebAPI
             }
 
             app.UseRouting();
+
+            // CORS
+            app.UseCors("AllowWebapp");
 
             app.UseAuthorization();
 
